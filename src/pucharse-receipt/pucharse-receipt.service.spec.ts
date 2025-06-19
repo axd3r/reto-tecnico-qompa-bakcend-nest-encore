@@ -35,7 +35,7 @@ describe('PucharseReceiptService', () => {
         PucharseReceiptService,
         {
           provide: 'PURCHASE_RECEIPT_MODEL',
-          useValue: mockPurchaseReceiptModel, // importante: función, no el objeto
+          useValue: mockPurchaseReceiptModel,
         },
         {
           provide: SunatService,
@@ -69,7 +69,7 @@ describe('PucharseReceiptService', () => {
   });
 
   it('debería lanzar error si ya existe comprobante con el mismo número y RUC', async () => {
-    mockQueryBuilder.first.mockResolvedValueOnce(true); // Simula comprobante duplicado
+    mockQueryBuilder.first.mockResolvedValueOnce(true);
 
     const data: CreatePucharseReceiptDto = {
       companyId: 'empresa-001',

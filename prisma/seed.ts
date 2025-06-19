@@ -4,16 +4,35 @@ import { faker } from '@faker-js/faker';
 const prisma = new PrismaClient();
 
 async function main() {
+  await prisma.pucharseReceipt.deleteMany();
+  console.log('🗑️ Comprobantes anteriores eliminados');
+
+  const usedCombinations = new Set<string>();
+
   for (let i = 0; i < 100; i++) {
     const amount = parseFloat(faker.finance.amount({ min: 100, max: 5000, dec: 2 }));
     const igv = parseFloat((amount * 0.18).toFixed(2));
     const total = parseFloat((amount + igv).toFixed(2));
 
+    let invoiceNumber: string;
+    let supplierRuc: string;
+    let comboKey: string;
+
+    do {
+      const serie = `${faker.string.alpha({ casing: 'upper', length: 1 })}${String(faker.number.int({ min: 1, max: 999 })).padStart(3, '0')}`;
+      const correlativo = String(faker.number.int({ min: 1, max: 99999999 })).padStart(8, '0');
+      invoiceNumber = `${serie}-${correlativo}`;
+      supplierRuc = faker.string.numeric(11);
+      comboKey = `${supplierRuc}-${invoiceNumber}`;
+    } while (usedCombinations.has(comboKey));
+
+    usedCombinations.add(comboKey);
+
     await prisma.pucharseReceipt.create({
       data: {
         companyId: faker.string.uuid(),
-        supplierRuc: faker.string.numeric(11),
-        invoiceNumber: faker.string.alphanumeric(8).toUpperCase(),
+        supplierRuc,
+        invoiceNumber,
         amount,
         igv,
         total,
@@ -35,12 +54,11 @@ async function main() {
       },
     });
   }
+
+  console.log('✅ Seed completado con 100 comprobantes únicos');
 }
 
 main()
-  .then(() => {
-    console.log('✅ Seed completado con 100 comprobantes');
-  })
   .catch((e) => {
     console.error('❌ Error ejecutando el seed:', e);
     process.exit(1);

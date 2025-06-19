@@ -15,7 +15,6 @@ export class PucharseReceiptService {
   ) { }
 
   async create(dto: CreatePucharseReceiptDto): Promise<PucharseReceiptEntity> {
-    console.log('DEBUG typeof model:', typeof this.pucharseReceiptModel);
     const duplicate = await this.pucharseReceiptModel()
       .where({ invoiceNumber: dto.invoiceNumber, supplierRuc: dto.supplierRuc })
       .first();
@@ -37,10 +36,11 @@ export class PucharseReceiptService {
 
     await this.sunatService.validateRuc(dto.supplierRuc);
 
+    const companyId = dto.companyId ?? crypto.randomUUID();
     const now = new Date();
     const receipt = new PucharseReceiptEntity(
       crypto.randomUUID(),
-      dto.companyId,
+      companyId,
       dto.supplierRuc,
       dto.invoiceNumber,
       dto.amount,
@@ -173,7 +173,7 @@ export class PucharseReceiptService {
   }
 
   async askAI(question: string): Promise<{ answer: string }> {
-    const receipts = await this.findMany({}); // sin filtros por ahora
+    const receipts = await this.findMany({});
 
     if (!receipts.length) {
       return { answer: 'No se encontraron comprobantes para analizar.' };

@@ -1,9 +1,11 @@
-import { IsString, IsNumber, IsDateString, IsEnum, IsOptional } from 'class-validator';
+import { IsString, IsNumber, IsDateString, IsEnum, IsOptional, IsUUID } from 'class-validator';
 import { DocumentType } from '../entities/pucharse-receipt.entity';
 
 export class CreatePucharseReceiptDto {
   @IsString()
-  companyId: string;
+  @IsOptional()
+  @IsUUID()
+  companyId?: string;
 
   @IsString()
   supplierRuc: string;

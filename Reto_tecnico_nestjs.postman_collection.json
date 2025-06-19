@@ -1,0 +1,647 @@
+{
+	"info": {
+		"_postman_id": "d4d654c5-d250-47b5-9559-c2fc9bade96b",
+		"name": "Reto tecnico nestjs Copy",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "34452077",
+		"_collection_link": "https://municipalidad-documents.postman.co/workspace/MUNICIPALIDAD-DOCUMENTS-Workspa~496d098e-eab5-4116-8bad-ab86d2043c97/collection/34452077-d4d654c5-d250-47b5-9559-c2fc9bade96b?action=share&source=collection_link&creator=34452077"
+	},
+	"item": [
+		{
+			"name": "save",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"companyId\": \"empresa-001\",\r\n  \"supplierRuc\": \"20123456789\",\r\n  \"invoiceNumber\": \"F001-00001237\",\r\n  \"amount\": 1000.00,\r\n  //\"issueDate\": \"2024-05-01T00:00:00.000Z\",\r\n  \"documentType\": \"FACTURA\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/pucharse-receipts",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"pucharse-receipts"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Success",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"companyId\": \"empresa-001\",\r\n  \"supplierRuc\": \"20123456789\",\r\n  \"invoiceNumber\": \"F001-00001234\",\r\n  \"amount\": 1000.00,\r\n  \"issueDate\": \"2024-05-01T00:00:00.000Z\",\r\n  \"documentType\": \"FACTURA\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/purchase-receipts",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"purchase-receipts"
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "329"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"149-AMiIjh9nGNoO/ivqIR5fsr2zCqI\""
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 18 Jun 2025 07:22:23 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"id\": \"d240133d-c55e-4b8c-a07a-5a9ce5b76460\",\n    \"companyId\": \"empresa-001\",\n    \"supplierRuc\": \"20123456789\",\n    \"invoiceNumber\": \"F001-00001234\",\n    \"amount\": 1000,\n    \"issueDate\": \"2024-05-01T00:00:00.000Z\",\n    \"documentType\": \"FACTURA\",\n    \"createdAt\": \"2025-06-18T07:22:23.855Z\",\n    \"updatedAt\": \"2025-06-18T07:22:23.855Z\",\n    \"igv\": 180,\n    \"total\": 1180,\n    \"status\": \"PENDING\"\n}"
+				}
+			]
+		},
+		{
+			"name": "update",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"status\": \"VALIDATED\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/purchase-receipts/d240133d-c55e-4b8c-a07a-5a9ce5b76460/status",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"purchase-receipts",
+						"d240133d-c55e-4b8c-a07a-5a9ce5b76460",
+						"status"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Success",
+					"originalRequest": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"status\": \"VALIDATED\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/purchase-receipts/d240133d-c55e-4b8c-a07a-5a9ce5b76460/status",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"purchase-receipts",
+								"d240133d-c55e-4b8c-a07a-5a9ce5b76460",
+								"status"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "346"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"15a-Cx9SoapmzdGToKW2eYBrGjiE4kM\""
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 18 Jun 2025 07:23:32 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"id\": \"d240133d-c55e-4b8c-a07a-5a9ce5b76460\",\n    \"companyId\": \"empresa-001\",\n    \"supplierRuc\": \"20123456789\",\n    \"invoiceNumber\": \"F001-00001234\",\n    \"amount\": \"1000.00\",\n    \"issueDate\": \"2024-05-01T00:00:00.000Z\",\n    \"documentType\": \"FACTURA\",\n    \"status\": \"VALIDATED\",\n    \"igv\": \"180.00\",\n    \"total\": \"1180.00\",\n    \"createdAt\": \"2025-06-18T07:22:23.855Z\",\n    \"updatedAt\": \"2025-06-18T07:22:23.855Z\"\n}"
+				}
+			]
+		},
+		{
+			"name": "get",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/purchase-receipts?startDate=2024-03-19&endDate=2025-06-25&status=VALIDATED&page=1&limit=5",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"purchase-receipts"
+					],
+					"query": [
+						{
+							"key": "startDate",
+							"value": "2024-03-19"
+						},
+						{
+							"key": "endDate",
+							"value": "2025-06-25"
+						},
+						{
+							"key": "status",
+							"value": "VALIDATED"
+						},
+						{
+							"key": "page",
+							"value": "1"
+						},
+						{
+							"key": "limit",
+							"value": "5"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Success",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/purchase-receipts?status=VALIDATED&page=1&limit=5",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"purchase-receipts"
+							],
+							"query": [
+								{
+									"key": "status",
+									"value": "VALIDATED"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "5"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "308"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"134-NBjXEwfInsmPAqZ1GIM4g8ALDJE\""
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 17 Jun 2025 22:45:17 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"data\": [\n        {\n            \"id\": \"bb37ea4f-497c-4e55-89ab-27a87c1327de\",\n            \"companyId\": \"empresa-001\",\n            \"supplierRuc\": \"20123456789\",\n            \"invoiceNumber\": \"F001-00001234\",\n            \"amount\": 1000,\n            \"issueDate\": \"2024-05-01T00:00:00.000Z\",\n            \"documentType\": \"FACTURA\",\n            \"igv\": 180,\n            \"total\": 1180,\n            \"status\": \"VALIDATED\"\n        }\n    ],\n    \"total\": 1,\n    \"page\": 1,\n    \"limit\": 5,\n    \"totalPages\": 1\n}"
+				}
+			]
+		},
+		{
+			"name": "export",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/pucharse-receipts/export?startDate=2024-06-01&type=FACTURA",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"pucharse-receipts",
+						"export"
+					],
+					"query": [
+						{
+							"key": "startDate",
+							"value": "2024-06-01"
+						},
+						{
+							"key": "endDate",
+							"value": "2025-06-15",
+							"disabled": true
+						},
+						{
+							"key": "type",
+							"value": "FACTURA"
+						},
+						{
+							"key": "status",
+							"value": "VALIDATED",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Success",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/purchase-receipts/export?startDate=2024-06-01&type=FACTURA&status=VALIDATED",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"purchase-receipts",
+								"export"
+							],
+							"query": [
+								{
+									"key": "startDate",
+									"value": "2024-06-01"
+								},
+								{
+									"key": "endDate",
+									"value": "2025-06-15",
+									"disabled": true
+								},
+								{
+									"key": "type",
+									"value": "FACTURA"
+								},
+								{
+									"key": "status",
+									"value": "VALIDATED"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "plain",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Content-Type",
+							"value": "text/csv; charset=utf-8"
+						},
+						{
+							"key": "Content-Disposition",
+							"value": "attachment; filename=receipts.csv"
+						},
+						{
+							"key": "Content-Length",
+							"value": "199"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"c7-kzsn/7OugVx2D4RiQp0kvEtxA3o\""
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 18 Jun 2025 00:12:25 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "\"company_id\",\"supplier_ruc\",\"invoice_number\",\"amount\",\"igv\",\"total\",\"issue_date\",\"document_type\",\"status\"\r\n\"empresa-001\",\"20123456789\",\"F001-00001234\",1000,180,1180,\"2024-05-01\",\"FACTURA\",\"VALIDATED\""
+				}
+			]
+		},
+		{
+			"name": "ask IA",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"question\": \"¿Cuál fue el total de comprobantes validados en mayo?\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/pucharse-receipts/ai/ask",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"pucharse-receipts",
+						"ai",
+						"ask"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Success",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"question\": \"¿Cuál fue el total de comprobantes validados en mayo?\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/purchase-receipts/ai/ask",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"purchase-receipts",
+								"ai",
+								"ask"
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "732"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"2dc-g1mKsNTveI3B/HAfUVXaDP7lnNc\""
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 18 Jun 2025 00:14:31 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"answer\": \"Para determinar el total de comprobantes validados en mayo, debemos revisar los datos proporcionados y sumar los montos de los comprobantes que tienen el estado \\\"VALIDATED\\\" y cuya fecha de emisión sea en mayo.\\n\\nEn los datos proporcionados, hay dos comprobantes:\\n\\n1. Comprobante con número \\\"F001-00001234\\\", monto 1000, fecha de emisión \\\"2024-05-01\\\", tipo de documento \\\"FACTURA\\\", y estado \\\"VALIDATED\\\".\\n2. Comprobante con número \\\"F001-00001234\\\", monto 1000, fecha de emisión \\\"2024-05-01\\\", tipo de documento \\\"FACTURA\\\", y estado \\\"PENDING\\\".\\n\\nSolo el primer comprobante está en estado \\\"VALIDATED\\\" y fue emitido en mayo de 2024. Por lo tanto, el total de comprobantes validados en mayo es 1000.\"\n}"
+				},
+				{
+					"name": "Success ll",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  //\"question\": \"¿Cuál fue el total de comprobantes validados en mayo?\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/purchase-receipts/ai/ask",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"purchase-receipts",
+								"ai",
+								"ask"
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "673"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"2a1-Q+S3lbMtHl7ECJW0Unl5PfeuHHc\""
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 18 Jun 2025 01:46:32 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"answer\": \"Para determinar el total de comprobantes validados en mayo, debemos revisar los datos proporcionados y sumar los montos de aquellos comprobantes que cumplan con las siguientes condiciones:\\n\\n1. El estado del comprobante debe ser \\\"VALIDATED\\\".\\n2. La fecha de emisión debe ser en mayo de 2024.\\n\\nAnalizando los datos JSON proporcionados:\\n\\n- El primer comprobante tiene un estado \\\"VALIDATED\\\" y una fecha de emisión \\\"2024-05-01\\\", lo cual cumple con ambas condiciones.\\n- El segundo comprobante tiene un estado \\\"PENDING\\\", por lo que no cumple con la condición de estar validado.\\n\\nPor lo tanto, el total de comprobantes validados en mayo es de 1000.\"\n}"
+				},
+				{
+					"name": "Success lll",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"question\": \"¿Cuál fue el total de comprobantes validados en mayo?\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/pucharse-receipts/ai/ask",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"pucharse-receipts",
+								"ai",
+								"ask"
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "353"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"161-cjMuBFIYO+AvyMeXKRt4S+LlmwA\""
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 18 Jun 2025 21:20:19 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"answer\": \"Para determinar el total de comprobantes validados en mayo, revisemos los datos proporcionados:\\n\\n1. **F001-00001234**: \\n   - Monto: 1000\\n   - Fecha de emisión: 2024-05-01\\n   - Estado: VALIDATED\\n\\nEste es el único comprobante que está validado y fue emitido en mayo. Por lo tanto, el total de comprobantes validados en mayo es 1000.\"\n}"
+				}
+			]
+		}
+	]
+}
