@@ -85,6 +85,46 @@ npx prisma generate
 npx prisma migrate dev --name init
 ```
 
+### 📚 Modelo de Base de Datos
+La aplicación utiliza PostgreSQL como base de datos relacional y Prisma ORM como capa de acceso a datos.
+
+| Campo           | Tipo            | Descripción                                |
+| --------------- | --------------- | ------------------------------------------ |
+| `id`            | `String (UUID)` | Identificador único del comprobante        |
+| `companyId`     | `String`        | Identificador de la empresa emisora        |
+| `supplierRuc`   | `String`        | RUC del proveedor                          |
+| `invoiceNumber` | `String`        | Número del comprobante (ej. F001-00001234) |
+| `amount`        | `Decimal(12,2)` | Monto base del comprobante                 |
+| `igv`           | `Decimal(12,2)` | Impuesto IGV calculado automáticamente     |
+| `total`         | `Decimal(12,2)` | Monto total (amount + igv)                 |
+| `issueDate`     | `DateTime`      | Fecha de emisión del comprobante           |
+| `documentType`  | `Enum`          | Tipo de documento: FACTURA, BOLETA, RECIBO |
+| `status`        | `Enum`          | Estado: PENDING, VALIDATED, REJECTED, etc. |
+| `createdAt`     | `DateTime`      | Fecha de creación del registro             |
+| `updatedAt`     | `DateTime`      | Fecha de última modificación               |
+
+
+🧩 Entidad Principal: PurchaseReceipt
+Representa un comprobante de compra registrado en el sistema.
+
+#### 📘 Enums
+DocumentType
+- FACTURA
+- BOLETA
+- RECIBO
+
+PurchaseReceiptStatus
+- PENDING: Comprobante registrado sin validar.
+- VALIDATED: Comprobante validado correctamente.
+- REJECTED: Comprobante rechazado.
+- OBSERVED: Comprobante observado, requiere revisión.
+
+🧠 Lógica Interna
+- igv y total se calculan automáticamente antes de insertar.
+- Se evita registrar duplicados usando invoiceNumber + supplierRuc.
+- No se permite registrar comprobantes con issueDate futura o anterior al año 2000.
+- Se valida la existencia del proveedor (RUC) con la SUNAT.
+
 ### 5. Ejecutar servidor de desarrollo
 
 ```bash
