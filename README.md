@@ -128,7 +128,7 @@ PurchaseReceiptStatus
 ### 5. Ejecutar servidor de desarrollo
 
 ```bash
-npm run start:dev
+encore run 
 ```
 
 ---
