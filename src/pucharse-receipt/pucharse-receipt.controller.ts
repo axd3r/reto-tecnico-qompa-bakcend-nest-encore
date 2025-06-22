@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Query, Patch, Res } from '@nestjs/common';
+/* import { Body, Controller, Get, Param, Post, Query, Patch, Res } from '@nestjs/common';
 import { PucharseReceiptService } from './pucharse-receipt.service';
 import { CreatePucharseReceiptDto } from './dto/create-pucharse-receipt.dto';
 import { UpdatePucharseReceiptStatusDto } from './dto/update-pucharse-receipt-status.dto';
@@ -45,3 +45,4 @@ export class PucharseReceiptController {
     return this.pucharseReceiptService.askAI(dto.question);
   }
 }
+ */

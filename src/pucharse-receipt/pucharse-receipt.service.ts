@@ -3,7 +3,7 @@ import { FilterPucharseReceiptDto } from './dto/filter-pucharse-receipt.dto';
 import { DocumentType, PucharseReceiptEntity, PucharseReceiptStatus } from './entities/pucharse-receipt.entity';
 import { Parser } from 'json2csv';
 import OpenAI from 'openai';
-import { SunatService } from 'src/sunat/sunat.service';
+import { SunatService } from '../sunat/sunat.service';
 import { CreatePucharseReceiptDto } from './dto/create-pucharse-receipt.dto';
 
 @Injectable()
@@ -34,7 +34,7 @@ export class PucharseReceiptService {
       throw new BadRequestException('La fecha de emisión es demasiado antigua');
     }
 
-    await this.sunatService.validateRuc(dto.supplierRuc);
+    //await this.sunatService.validateRuc(dto.supplierRuc);
 
     const companyId = dto.companyId ?? crypto.randomUUID();
     const now = new Date();
@@ -148,29 +148,31 @@ export class PucharseReceiptService {
     return query;
   }
 
-  async exportCsv(filter: FilterPucharseReceiptDto): Promise<string> {
+  async exportCsv(filter: FilterPucharseReceiptDto): Promise<{ csv: string }> {
     const receipts = await this.findMany(filter);
 
     if (!receipts.length) {
       throw new BadRequestException('No hay comprobantes para exportar');
     }
-    const transformed = receipts.map((receipt) => {
-      return {
-        company_id: receipt.companyId,
-        supplier_ruc: receipt.supplierRuc,
-        invoice_number: receipt.invoiceNumber,
-        amount: receipt.amount,
-        igv: receipt.igv,
-        total: receipt.total,
-        issue_date: new Date(receipt.issueDate).toISOString().split('T')[0],
-        document_type: receipt.documentType,
-        status: receipt.status,
-      };
-    });
+
+    const transformed = receipts.map((receipt) => ({
+      company_id: receipt.companyId,
+      supplier_ruc: receipt.supplierRuc,
+      invoice_number: receipt.invoiceNumber,
+      amount: receipt.amount,
+      igv: receipt.igv,
+      total: receipt.total,
+      issue_date: new Date(receipt.issueDate).toISOString().split('T')[0],
+      document_type: receipt.documentType,
+      status: receipt.status,
+    }));
 
     const parser = new Parser();
-    return parser.parse(transformed);
+    const csv = parser.parse(transformed);
+
+    return { csv };
   }
+
 
   async askAI(question: string): Promise<{ answer: string }> {
     const receipts = await this.findMany({});

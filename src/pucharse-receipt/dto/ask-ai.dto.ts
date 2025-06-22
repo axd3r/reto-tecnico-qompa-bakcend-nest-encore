@@ -1,7 +1,3 @@
-import { IsString, IsNotEmpty } from 'class-validator';
-
-export class AskAIDto {
-  @IsString()
-  @IsNotEmpty()
+export interface AskAIDto {
   question: string;
 }
