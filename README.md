@@ -1,6 +1,9 @@
+
 # 🧾 Microservicio de Comprobantes de Compra
 
-Microservicio desarrollado con **NestJS** y **Encore** para registrar y gestionar comprobantes de compra. Implementa arquitectura limpia, validación de RUC con la API de SUNAT (simulada o real), y exportación CSV, además de integración con IA para responder preguntas con lenguaje natural.
+Microservicio desarrollado con **NestJS** en estructura clásica para registrar y gestionar comprobantes de compra. Implementa arquitectura limpia, validación de RUC con la API de SUNAT (simulada o real), y exportación CSV, además de integración con IA para responder preguntas con lenguaje natural.
+
+📦 Esta versión del proyecto **no utiliza Encore Cloud**. Para ver la versión compatible con Encore, dirígete a la rama `encore-dev`.
 
 ---
 
@@ -41,7 +44,6 @@ Microservicio desarrollado con **NestJS** y **Encore** para registrar y gestiona
 | Herramienta     | Uso                        |
 |------------------|-----------------------------|
 | NestJS          | Framework principal         |
-| Encore          | Boilerplate + validaciones  |
 | PostgreSQL      | Base de datos relacional     |
 | Prisma ORM      | Acceso a base de datos       |
 | TypeScript      | Tipado estricto              |
@@ -71,7 +73,7 @@ Crea un archivo `.env` basado en `.env.example`:
 ```bash
 cp .env.example .env
 ```
-En el archivo .env colocarl la clave de OpenAI brindada en el reto
+En el archivo .env coloca la clave de OpenAI brindada en el reto:
 ```bash
 OPENAI_API_KEY=sk-.........
 ```
@@ -86,7 +88,6 @@ npx prisma migrate dev --name init
 ```
 
 ### 📚 Modelo de Base de Datos
-La aplicación utiliza PostgreSQL como base de datos relacional y Prisma ORM como capa de acceso a datos.
 
 | Campo           | Tipo            | Descripción                                |
 | --------------- | --------------- | ------------------------------------------ |
@@ -103,9 +104,7 @@ La aplicación utiliza PostgreSQL como base de datos relacional y Prisma ORM com
 | `createdAt`     | `DateTime`      | Fecha de creación del registro             |
 | `updatedAt`     | `DateTime`      | Fecha de última modificación               |
 
-
 🧩 Entidad Principal: PurchaseReceipt
-Representa un comprobante de compra registrado en el sistema.
 
 #### 📘 Enums
 DocumentType
@@ -114,18 +113,12 @@ DocumentType
 - RECIBO
 
 PurchaseReceiptStatus
-- PENDING: Comprobante registrado sin validar.
-- VALIDATED: Comprobante validado correctamente.
-- REJECTED: Comprobante rechazado.
-- OBSERVED: Comprobante observado, requiere revisión.
+- PENDING
+- VALIDATED
+- REJECTED
+- OBSERVED
 
-🧠 Lógica Interna
-- igv y total se calculan automáticamente antes de insertar.
-- Se evita registrar duplicados usando invoiceNumber + supplierRuc.
-- No se permite registrar comprobantes con issueDate futura o anterior al año 2000.
-- Se valida la existencia del proveedor (RUC) con la SUNAT.
-
-### 5. Ejecutar servidor de desarrollo
+### 5. Ejecutar servidor de desarrollo (NestJS clásico)
 
 ```bash
 npm run start:dev
@@ -144,10 +137,8 @@ npm run seed
 ---
 
 ## 📬 Endpoints Destacados
-Puede utilizar el archivo para importar los metodos en Postman
-```
-Reto_tecnico_nestjs.postman_collection.json
-```
+
+Puedes utilizar el archivo `Reto_tecnico_nestjs.postman_collection.json` para importar los endpoints en Postman.
 
 | Método | Ruta                              | Descripción                           |
 |--------|-----------------------------------|----------------------------------------|
@@ -160,8 +151,9 @@ Reto_tecnico_nestjs.postman_collection.json
 ---
 
 ## 📌 Ejemplos de uso
+
 ✅ POST /pucharse-receipts
-```
+```json
 {
   "companyId": "a0645f6d-18df-422f-8168-30d701af78a0",
   "supplierRuc": "10763261374",
@@ -170,36 +162,27 @@ Reto_tecnico_nestjs.postman_collection.json
   "issueDate": "2024-05-01T00:00:00.000Z",
   "documentType": "FACTURA"
 }
+```
 
-```
-- companyId, puede insertarse de manera manual, pero en formato uuid, en caso de que no se inserte, se genera automatico.
-- supplierRuc, debe ser un RUC existente.
-- en caso de no colocar fecha se usa la fecha actual.
----
 🔄 PATCH /pucharse-receipts/:id/status
-```
+```json
 {
   "status": "VALIDATED"
 }
 ```
----
+
 🔍 GET /pucharse-receipts
-- Query params opcionales:
 ```
 ?startDate=2024-03-19&endDate=2025-06-25&status=VALIDATED&page=1&limit=5
 ```
----
+
 📤 GET /pucharse-receipts/export/csv
-- Query ejemplo:
 ```
-?startDate=2024-06-01&type=FACTURA&status=VALIDATED
+?startDate=2024-06-01&documentType=FACTURA&status=VALIDATED
 ```
----
-## 🧠 IA: Ejemplo de Consulta
 
+🧠 POST /pucharse-receipts/ai/ask
 ```json
-POST /pucharse-receipts/ai/ask
-
 {
   "question": "¿Cuál fue el total de comprobantes validados en mayo?"
 }
