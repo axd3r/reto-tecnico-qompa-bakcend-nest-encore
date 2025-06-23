@@ -1,7 +1,7 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "module": "ES2022",
+    "module": "commonjs",
     "target": "ES2022",
     "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,
@@ -10,6 +10,6 @@
     "types": ["node"]
   },
   "ts-node": {
-    "esm": true
+    "project": "tsconfig.seed.json"
   }
 }

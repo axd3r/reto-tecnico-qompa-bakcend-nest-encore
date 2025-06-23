@@ -1,201 +1,109 @@
+
 # 🧾 Microservicio de Comprobantes de Compra
 
-Microservicio desarrollado con **NestJS** y **Encore** para registrar y gestionar comprobantes de compra. Implementa arquitectura limpia, validación de RUC con la API de SUNAT (simulada o real), y exportación CSV, además de integración con IA para responder preguntas con lenguaje natural.
+Microservicio desarrollado con **NestJS** y **Encore** para registrar y gestionar comprobantes de compra. Desplegado automáticamente en **Encore Cloud**, con infraestructura y CI/CD gestionados por Encore.
 
 ---
 
-## 📌 Funcionalidades Principales
+## 🚀 Despliegue en Encore Cloud
+
+Este proyecto está conectado con **Encore Cloud** y se despliega automáticamente al hacer `git push encore`.  
+Puedes ver la app y endpoints en:  
+🔗 [https://app.encore.dev/apps/reto-tecnico-qompa](https://app.encore.dev/apps/reto-tecnico-qompa)
+
+### 📁 Estructura de despliegue
+
+- App ID: `reto-tecnico-qompa-zzgi`
+- Rama activa: `encore-dev`
+- CI/CD: Integrado por defecto con build, test y deploy automáticos
+
+---
+
+## ⚙️ Configuración de Variables de Entorno
+
+En Encore, las variables de entorno se manejan como **secretos seguros**:
+
+### 🔑 Establecer variables con Encore CLI
+
+```bash
+encore secret set OPENAI_API_KEY="sk-..."
+encore secret set DATABASE_URL="postgresql://..."
+```
+
+Estas variables estarán disponibles en tu código a través de `process.env`.
+
+---
+
+## 🧠 Funcionalidades Principales
 
 ### 📥 Registro de Comprobantes
-- Campos requeridos: `company_id`, `supplier_ruc`, `invoice_number`, `amount`, `issue_date`, `document_type`
-- Cálculo automático de:
-  - IGV (18%)
-  - Total
-- Validación automática de RUC (API SUNAT)
+
+- Campos requeridos:
+  - `companyId`
+  - `supplierRuc`
+  - `invoiceNumber`
+  - `amount`
+  - `issueDate`
+  - `documentType`
+- Cálculo automático de IGV (18%) y Total
+- Validación automática de RUC con API SUNAT
 
 ### 🔁 Manejo de Estados
-- Estados: `pending`, `validated`, `rejected`, `observed`
-- Cambio de estado manual mediante API
+
+- Estados permitidos: `PENDING`, `VALIDATED`, `REJECTED`, `OBSERVED`
+- Cambio de estado vía API REST
 
 ### 📄 Listado y Filtros
+
 - Paginación
-- Filtro por fecha (`issue_date`)
-- Filtro por tipo de documento (`document_type`)
-- Filtro por estado
+- Filtros por:
+  - Fecha (`issueDate`)
+  - Tipo (`documentType`)
+  - Estado (`status`)
 
 ### 📤 Exportación CSV
-- Exportación de comprobantes filtrados
-- Columnas adicionales:
-  - IGV calculado
-  - Total
-  - Estado actual
 
-### 🤖 Integración IA (ChatGPT)
-- Endpoint inteligente para responder preguntas como:
-  > “¿Cuál fue el total de comprobantes validados en mayo?”
+- Exportación directa desde Encore Cloud con los filtros anteriores
+
+### 🤖 Integración con IA (ChatGPT)
+
+- Realiza preguntas en lenguaje natural:
+  > “¿Cuál fue el total validado en mayo?”
 
 ---
 
-## ⚙️ Stack Tecnológico
+## 🌐 Endpoints Destacados
 
-| Herramienta     | Uso                        |
-|------------------|-----------------------------|
-| NestJS          | Framework principal         |
-| Encore          | Boilerplate + validaciones  |
-| PostgreSQL      | Base de datos relacional     |
-| Prisma ORM      | Acceso a base de datos       |
-| TypeScript      | Tipado estricto              |
-| Jest (opcional) | Pruebas unitarias (no incluidas) |
-
----
-
-## 🚀 Instalación y Ejecución Local
-
-### 1. Clonar repositorio
-
-```bash
-git clone https://github.com/axd3r/reto-tecnico-qompa-bakcend-nest-encore.git
-cd reto-tecnico-qompa-bakcend-nest-encore
-```
-
-### 2. Instalar dependencias
-
-```bash
-npm install
-```
-
-### 3. Configurar variables de entorno
-
-Crea un archivo `.env` basado en `.env.example`:
-
-```bash
-cp .env.example .env
-```
-En el archivo .env colocarl la clave de OpenAI brindada en el reto
-```bash
-OPENAI_API_KEY=sk-.........
-```
-
-Ajusta los valores de conexión a PostgreSQL y el token de la API SUNAT si aplica.
-
-### 4. Configurar Prisma
-
-```bash
-npx prisma generate
-npx prisma migrate dev --name init
-```
-
-### 📚 Modelo de Base de Datos
-La aplicación utiliza PostgreSQL como base de datos relacional y Prisma ORM como capa de acceso a datos.
-
-| Campo           | Tipo            | Descripción                                |
-| --------------- | --------------- | ------------------------------------------ |
-| `id`            | `String (UUID)` | Identificador único del comprobante        |
-| `companyId`     | `String`        | Identificador de la empresa emisora        |
-| `supplierRuc`   | `String`        | RUC del proveedor                          |
-| `invoiceNumber` | `String`        | Número del comprobante (ej. F001-00001234) |
-| `amount`        | `Decimal(12,2)` | Monto base del comprobante                 |
-| `igv`           | `Decimal(12,2)` | Impuesto IGV calculado automáticamente     |
-| `total`         | `Decimal(12,2)` | Monto total (amount + igv)                 |
-| `issueDate`     | `DateTime`      | Fecha de emisión del comprobante           |
-| `documentType`  | `Enum`          | Tipo de documento: FACTURA, BOLETA, RECIBO |
-| `status`        | `Enum`          | Estado: PENDING, VALIDATED, REJECTED, etc. |
-| `createdAt`     | `DateTime`      | Fecha de creación del registro             |
-| `updatedAt`     | `DateTime`      | Fecha de última modificación               |
-
-
-🧩 Entidad Principal: PurchaseReceipt
-Representa un comprobante de compra registrado en el sistema.
-
-#### 📘 Enums
-DocumentType
-- FACTURA
-- BOLETA
-- RECIBO
-
-PurchaseReceiptStatus
-- PENDING: Comprobante registrado sin validar.
-- VALIDATED: Comprobante validado correctamente.
-- REJECTED: Comprobante rechazado.
-- OBSERVED: Comprobante observado, requiere revisión.
-
-🧠 Lógica Interna
-- igv y total se calculan automáticamente antes de insertar.
-- Se evita registrar duplicados usando invoiceNumber + supplierRuc.
-- No se permite registrar comprobantes con issueDate futura o anterior al año 2000.
-- Se valida la existencia del proveedor (RUC) con la SUNAT.
-
-### 5. Ejecutar servidor de desarrollo
-
-```bash
-encore run 
-```
+| Método | Endpoint                              | Descripción                          |
+|--------|----------------------------------------|--------------------------------------|
+| POST   | `/pucharse-receipts`                  | Crear un comprobante de compra       |
+| PATCH  | `/pucharse-receipts/status/:id`       | Cambiar estado del comprobante       |
+| GET    | `/pucharse-receipts`                  | Listar comprobantes con filtros      |
+| GET    | `/pucharse-receipts/export/csv`       | Exportar comprobantes a CSV          |
+| POST   | `/pucharse-receipts/ai/ask`           | Consultar datos con lenguaje natural |
 
 ---
 
-## 🧪 Datos de prueba
+## 📦 Modelo de Base de Datos
 
-Se incluyen comprobantes de ejemplo precargados (seed) para facilitar pruebas. Ejecuta:
-
-```bash
-npm run seed
-```
-
----
-
-## 📬 Endpoints Destacados
-Puede utilizar el archivo para importar los metodos en Postman
-```
-Reto_tecnico_nestjs.postman_collection.json
-```
-
-| Método | Ruta                              | Descripción                           |
-|--------|-----------------------------------|----------------------------------------|
-| POST   | `/pucharse-receipts`              | Registrar comprobante de compra       |
-| PATCH  | `/pucharse-receipts/:id/status`   | Cambiar estado del comprobante        |
-| GET    | `/pucharse-receipts`              | Listar comprobantes con filtros       |
-| GET    | `/pucharse-receipts/export/csv`   | Exportar comprobantes filtrados a CSV |
-| POST   | `/pucharse-receipts/ai/ask`       | Preguntar al asistente IA             |
+| Campo           | Tipo             | Descripción                                 |
+|-----------------|------------------|---------------------------------------------|
+| `id`            | UUID             | Identificador único                         |
+| `companyId`     | String           | ID de la empresa                            |
+| `supplierRuc`   | String           | RUC del proveedor                           |
+| `invoiceNumber` | String           | Número de comprobante                       |
+| `amount`        | Decimal(12,2)    | Monto base                                  |
+| `igv`           | Decimal(12,2)    | IGV calculado automáticamente               |
+| `total`         | Decimal(12,2)    | Total con IGV                               |
+| `issueDate`     | DateTime         | Fecha de emisión                            |
+| `documentType`  | Enum             | FACTURA, BOLETA, RECIBO                     |
+| `status`        | Enum             | PENDING, VALIDATED, REJECTED, OBSERVED      |
+| `createdAt`     | DateTime         | Fecha de creación del registro              |
+| `updatedAt`     | DateTime         | Fecha de última modificación                |
 
 ---
 
-## 📌 Ejemplos de uso
-✅ POST /pucharse-receipts
-```
-{
-  "companyId": "a0645f6d-18df-422f-8168-30d701af78a0",
-  "supplierRuc": "10763261374",
-  "invoiceNumber": "F001-00001239",
-  "amount": 1000.00,
-  "issueDate": "2024-05-01T00:00:00.000Z",
-  "documentType": "FACTURA"
-}
-
-```
-- companyId, puede insertarse de manera manual, pero en formato uuid, en caso de que no se inserte, se genera automatico.
-- supplierRuc, debe ser un RUC existente.
-- en caso de no colocar fecha se usa la fecha actual.
----
-🔄 PATCH /pucharse-receipts/:id/status
-```
-{
-  "status": "VALIDATED"
-}
-```
----
-🔍 GET /pucharse-receipts
-- Query params opcionales:
-```
-?startDate=2024-03-19&endDate=2025-06-25&status=VALIDATED&page=1&limit=5
-```
----
-📤 GET /pucharse-receipts/export/csv
-- Query ejemplo:
-```
-?startDate=2024-06-01&type=FACTURA&status=VALIDATED
-```
----
-## 🧠 IA: Ejemplo de Consulta
+## 🧠 Ejemplo de Consulta IA
 
 ```json
 POST /pucharse-receipts/ai/ask
@@ -214,31 +122,53 @@ POST /pucharse-receipts/ai/ask
 
 ---
 
-## ✅ Estado del Proyecto
+## 📌 CI/CD Automático con Encore
 
-- [x] Registro de comprobantes
-- [x] Validación RUC vía API
-- [x] Gestión de estados
-- [x] Filtros y exportación CSV
-- [x] Endpoint de IA (ChatGPT)
-- [ ] Pruebas unitarias básicas (por implementar)
+Al hacer cambios:
+
+```bash
+git add .
+git commit -m "Nueva funcionalidad"
+git push encore encore-dev
+```
+
+Esto ejecuta automáticamente:
+
+1. `npm install`
+2. `npm run build`
+3. `npm test`
+4. Despliegue a producción en Encore Cloud
+
+Puedes seguir los logs en tu dashboard en [app.encore.dev](https://app.encore.dev).
 
 ---
 
-## 📄 Licencia
+## 🧪 Seed de Datos
 
-MIT
+Para insertar datos de prueba en entorno local:
+
+```bash
+npm run seed
+```
+
+En producción puedes ejecutar un script desde el dashboard o CLI.
 
 ---
 
 ## 👨‍💻 Autor
 
 Desarrollado por **Joaquín Orihuela**  
-[GitHub](https://github.com/axd3r)
+🔗 [GitHub](https://github.com/axd3r)
 
 ---
 
 ## 🙌 Agradecimientos
 
 Gracias al equipo de **Qompa** por el reto técnico.  
-¡Fue un desafío interesante y enriquecedor!
+¡Una experiencia enriquecedora!
+
+---
+
+## 📄 Licencia
+
+MIT
